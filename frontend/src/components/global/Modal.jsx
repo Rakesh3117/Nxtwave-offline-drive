@@ -9,12 +9,13 @@ const Modal = ({
   confirmText = "Confirm",
   cancelText = "Cancel",
   children,
+  className
 }) => {
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-      <div className="bg-white/20 backdrop-blur-lg rounded-2xl shadow-xl p-6 max-w-md w-full mx-4 border border-white/30">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm ">
+      <div className={`bg-white/20 backdrop-blur-lg rounded-2xl shadow-xl p-6 max-w-md w-full mx-4 border border-white/30 ${className}`}>
         <h2 className="text-xl font-semibold text-white mb-4">{title}</h2>
         <div className="text-white mb-4">{children}</div>
         <div className="flex justify-end space-x-3">

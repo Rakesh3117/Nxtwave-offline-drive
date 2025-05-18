@@ -25,6 +25,10 @@ const moviesListSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  runtime: {
+    type: Number,
+    required: true
+  },
   createdAt: {
     type: Date,
     default: Date.now

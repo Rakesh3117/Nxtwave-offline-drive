@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { RiMovie2AiFill } from "react-icons/ri";
+import { IoMdHome } from "react-icons/io";
+import { BiSolidCameraMovie } from "react-icons/bi";
+import { MdOutlineFavorite } from "react-icons/md";
+import { MdOutlineWatchLater } from "react-icons/md";
+
+
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,22 +21,35 @@ const Navbar = () => {
     <nav className="bg-gray-800 p-4">
       <div className="container mx-auto">
         <div className="flex justify-between items-center">
-          <Link to="/" className="text-white text-2xl font-bold">
+          <Link to="/" className="text-white text-2xl font-bold flex items-center gap-2">
+            <RiMovie2AiFill />
             MovieTracker
           </Link>
 
           <div className="hidden md:flex space-x-6">
             <Link to="/" className="text-white hover:text-gray-300">
-              Home
+              <div className='flex items-center gap-0.5'>
+                <IoMdHome />
+                Home
+              </div>
             </Link>
             <Link to="/movies" className="text-white hover:text-gray-300">
-              Movies
+              <div className='flex items-center gap-0.5'>
+                <BiSolidCameraMovie />
+                Movies
+              </div>
             </Link>
             <Link to="/wishlist" className="text-white hover:text-gray-300">
-              Wishlist
+              <div className='flex items-center gap-0.5'>
+                <MdOutlineFavorite />
+                Wishlist
+              </div>
             </Link>
             <Link to="/watched" className="text-white hover:text-gray-300">
-              Watched
+              <div className='flex items-center gap-0.5'>
+                <MdOutlineWatchLater />
+                Watched
+              </div>
             </Link>
           </div>
 
@@ -49,28 +70,40 @@ const Navbar = () => {
                 className="text-white hover:text-gray-300"
                 onClick={toggleMenu}
               >
-                Home
+                <div className='flex items-center gap-0.5'>
+                  <IoMdHome />
+                  Home
+                </div>
               </Link>
               <Link
                 to="/movies"
                 className="text-white hover:text-gray-300"
                 onClick={toggleMenu}
               >
-                Movies
+                <div className='flex items-center gap-0.5'>
+                  <BiSolidCameraMovie />
+                  Movies
+                </div>
               </Link>
               <Link
                 to="/wishlist"
                 className="text-white hover:text-gray-300"
                 onClick={toggleMenu}
               >
-                Wishlist
+                <div className='flex items-center gap-0.5'>
+                  <MdOutlineFavorite />
+                  Wishlist
+                </div>
               </Link>
               <Link
                 to="/watched"
                 className="text-white hover:text-gray-300"
                 onClick={toggleMenu}
               >
-                Watched
+                <div className='flex items-center gap-0.5'>
+                  <MdOutlineWatchLater />
+                  Watched
+                </div>
               </Link>
             </div>
           </div>
