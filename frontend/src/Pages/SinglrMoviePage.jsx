@@ -22,7 +22,7 @@ const SingleMoviePage = () => {
   });
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/movies/${id}`);
+      await axios.delete(`https://nxtwave-offline-drive-1.onrender.com/api/movies/${id}`);
       toast.success('Movie deleted successfully');
       window.location.href = '/';
     } catch (error) {
@@ -33,11 +33,11 @@ const SingleMoviePage = () => {
   };
   const handleEdit = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/movies/${id}`, editData);
+      await axios.put(`https://nxtwave-offline-drive-1.onrender.com/api/movies/${id}`, editData);
       toast.success('Movie updated successfully');
       setShowEditModal(false);
       // Refresh movie data
-      const response = await axios.get(`http://localhost:5000/api/movies/${id}`);
+      const response = await axios.get(`https://nxtwave-offline-drive-1.onrender.com/api/movies/${id}`);
       setMovie(response.data);
     } catch (error) {
       toast.error('Error updating movie');
@@ -71,7 +71,7 @@ const SingleMoviePage = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/movies/${id}`);
+        const response = await axios.get(`https://nxtwave-offline-drive-1.onrender.com/api/movies/${id}`);
         setMovie(response.data);
         setLoading(false);
       } catch (error) {

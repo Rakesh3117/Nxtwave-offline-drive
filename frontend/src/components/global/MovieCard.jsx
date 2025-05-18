@@ -10,7 +10,7 @@ const MovieCard = ({movie}) => {
     e.stopPropagation(); // Prevent triggering the parent div's onClick
     setIsFavorite(!isFavorite);
     // Here you can add logic to save to favorites
-    axios.put(`http://localhost:5000/api/movies/${movie?._id}/wishlist`, { isWishlist: !isFavorite })
+    axios.put(`https://nxtwave-offline-drive-1.onrender.com/api/movies/${movie?._id}/wishlist`, { isWishlist: !isFavorite })
       .then(response => {
         console.log(response.data);
       })

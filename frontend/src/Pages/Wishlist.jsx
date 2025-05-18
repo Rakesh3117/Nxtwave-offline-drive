@@ -11,7 +11,7 @@ const Wishlist = () => {
     const fetchWishlistMovies = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get('http://localhost:5000/api/movies');
+        const response = await axios.get('https://nxtwave-offline-drive-1.onrender.com/api/movies');
         const movies = response.data;
         const wishlisted = movies.filter(movie => movie.isWishlist);
         setWishlistMovies(wishlisted);

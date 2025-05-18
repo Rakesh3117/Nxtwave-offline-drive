@@ -30,7 +30,7 @@ const Movies = () => {
 
   const fetchMovies = async () => {
     setIsLoading(true);
-    const response = await axios.get("http://localhost:5000/api/movies");
+    const response = await axios.get("https://nxtwave-offline-drive-1.onrender.com/api/movies");
     const data = response?.data;
     setMovies(data);
     setIsLoading(false);
@@ -51,7 +51,7 @@ const Movies = () => {
   const handleAddMovie = () => {
     console.log("Movie Data:", movieData);
     axios
-      .post("http://localhost:5000/api/movies", movieData)
+      .post("https://nxtwave-offline-drive-1.onrender.com/api/movies", movieData)
       .then((response) => {
         console.log("Movie added:", response.data);
         success("Movie added successfully");
@@ -76,7 +76,7 @@ const Movies = () => {
 
   const handleDeleteMovie = async (movieId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/movies/${movieId}`);
+      await axios.delete(`https://nxtwave-offline-drive-1.onrender.com/api/movies/${movieId}`);
       success("Movie deleted successfully");
       fetchMovies();
     } catch (error) {
@@ -95,7 +95,7 @@ const Movies = () => {
   const handleUpdateMovie = async () => {
     try {
       await axios.put(
-        `http://localhost:5000/api/movies/${selectedMovie._id}`,
+        `https://nxtwave-offline-drive-1.onrender.com/api/movies/${selectedMovie._id}`,
         movieData
       );
       success("Movie updated successfully");

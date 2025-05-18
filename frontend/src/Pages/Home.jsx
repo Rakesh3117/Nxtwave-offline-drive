@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTopMovies = async () => {
       setIsLoading(true);
-      const response = await fetch('http://localhost:5000/api/movies/top');
+      const response = await fetch('https://nxtwave-offline-drive-1.onrender.com/api/movies/top');
       const data = await response?.json();
       setTopMoviesList(data);
       setIsLoading(false);
