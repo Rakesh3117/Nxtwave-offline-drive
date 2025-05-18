@@ -1,60 +1,131 @@
-import React from 'react';
-import { createPortal } from 'react-dom';
+import React, { useState, useEffect } from "react";
 
-class Toast {
-  constructor() {
-    this.toastContainer = null;
-    this.timeout = null;
-  }
+const Toast = ({ message, type, onClose }) => {
+  const [isVisible, setIsVisible] = useState(false);
 
-  createToastContainer() {
-    if (!this.toastContainer) {
-      this.toastContainer = document.createElement('div');
-      this.toastContainer.id = 'toast-container';
-      this.toastContainer.className = 'fixed top-4 right-4 z-50';
-      document.body.appendChild(this.toastContainer);
-    }
-  }
-
-  show(message, type = 'success') {
-    this.createToastContainer();
-
-    // Clear any existing timeout
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
-
-    // Create toast element
-    const toast = (
-      <div
-        className={`${
-          type === 'success' ? 'bg-green-500' : 'bg-red-500'
-        } text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out`}
-      >
-        {message}
-      </div>
-    );
-
-    // Render toast
-    createPortal(toast, this.toastContainer);
-
-    // Auto remove after 3 seconds
-    this.timeout = setTimeout(() => {
-      if (this.toastContainer) {
-        document.body.removeChild(this.toastContainer);
-        this.toastContainer = null;
-      }
+  useEffect(() => {
+    setIsVisible(true);
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+      setTimeout(onClose, 300); // Wait for fade out animation before removing
     }, 3000);
-  }
 
-  success(message) {
-    this.show(message, 'success');
-  }
+    return () => clearTimeout(timer);
+  }, [onClose]);
 
-  error(message) {
-    this.show(message, 'error');
-  }
-}
+  const baseStyles = `
+    fixed top-4 right-4 
+    p-4 rounded-lg shadow-lg 
+    flex items-center space-x-2 
+    min-w-[320px] z-50
+    transition-opacity duration-300 ease-in-out
+    ${isVisible ? "opacity-100" : "opacity-0"}
+  `;
 
-const toast = new Toast();
-export default toast;
+  const typeStyles = {
+    success: "bg-green-500 text-white",
+    error: "bg-red-500 text-white",
+  };
+
+  const icons = {
+    success: (
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M5 13l4 4L19 7"
+        />
+      </svg>
+    ),
+    error: (
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    ),
+  };
+
+  return (
+    <div className={`${baseStyles} ${typeStyles[type]}`}>
+      <div className="flex-shrink-0">{icons[type]}</div>
+      <div className="flex-grow">
+        <p className="font-medium">{message}</p>
+      </div>
+      <button
+        onClick={() => {
+          setIsVisible(false);
+          setTimeout(onClose, 300);
+        }}
+        className="flex-shrink-0 ml-4 focus:outline-none hover:opacity-75 transition-opacity"
+      >
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+  );
+};
+
+// Custom hook for managing toasts
+export const useToast = () => {
+  const [toasts, setToasts] = useState([]);
+
+  const addToast = (message, type) => {
+    const newToast = {
+      id: Date.now(),
+      message,
+      type,
+    };
+    setToasts((prev) => [...prev, newToast]);
+  };
+
+  const removeToast = (id) => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+  };
+
+  const ToastWrapper = () => (
+    <>
+      {toasts.map((toast, index) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          onClose={() => removeToast(toast.id)}
+        />
+      ))}
+    </>
+  );
+
+  return {
+    ToastWrapper,
+    success: (message) => addToast(message, "success"),
+    error: (message) => addToast(message, "error"),
+  };
+};
+
+export default Toast;

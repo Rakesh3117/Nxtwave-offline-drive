@@ -1,17 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Navigate } from 'react-router-dom';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import axios from 'axios';
 
 const MovieCard = ({movie}) => {
+  const [isFavorite, setIsFavorite] = useState(movie?.isWishlist);
+
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation(); // Prevent triggering the parent div's onClick
+    setIsFavorite(!isFavorite);
+    // Here you can add logic to save to favorites
+    axios.put(`http://localhost:5000/api/movies/${movie?._id}/wishlist`, { isWishlist: !isFavorite })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error updating wishlist status:', error);
+      });
+  };
+
   return (
-    <div onClick={() => window.location.href = `/movie/${movie?._id}`} className="relative bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4">
+    <div onClick={() => window.location.href = `/movie/${movie?._id}`} className="relative bg-white rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-[100%]">
       {/* Movie Poster */}
-      <div className="relative h-[300px] sm:h-[350px] md:h-[400px] ">
+      <div className="relative">
         <img 
           src={movie?.posterUrl} 
           alt={movie?.title}
-          className="w-full h-full object-cover"
+          className="w-full h-[200px] object-cover"
         />
+        <button 
+          onClick={handleFavoriteClick}
+          className="absolute top-2 right-2 text-2xl text-red-500 hover:scale-110 transition-transform"
+        >
+          {isFavorite ? <AiFillHeart /> : <AiOutlineHeart />}
+        </button>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
           <h3 className="text-white text-lg sm:text-xl font-bold truncate">{movie?.title}</h3>
           <p className="text-gray-300 text-sm">{movie?.releaseYear}</p>
